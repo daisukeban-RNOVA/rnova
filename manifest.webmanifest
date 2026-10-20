@@ -1,0 +1,30 @@
+{
+  "name": "RNOVA \u2014 NCLEX-RN Review",
+  "short_name": "RNOVA",
+  "description": "Learn smart. Think like an RN.",
+  "id": "/rnova/",
+  "start_url": "/rnova/",
+  "scope": "/rnova/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F0B24",
+  "theme_color": "#2A1B6E",
+  "icons": [
+    {
+      "src": "/rnova/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/rnova/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/rnova/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
