@@ -1,7 +1,7 @@
-// RNOVA offline worker, build 261021.1000-f53da96. Pages: network first (always the newest version when
+// RNOVA offline worker, build 261021.1906-090e7b9. Pages: network first (always the newest version when
 // online, the cached copy offline). Bundles, fonts and pictures: cache first (their names change
 // whenever their content does). version.json: never cached.
-const CACHE = 'rnova-261021.1000-f53da96';
+const CACHE = 'rnova-261021.1906-090e7b9';
 const BASE = '/rnova/';
 self.addEventListener('install', (e) => {
   self.skipWaiting();
@@ -25,7 +25,8 @@ self.addEventListener('fetch', (e) => {
   if (url.pathname.endsWith('/version.json')) return;
   if (req.mode === 'navigate') {
     e.respondWith(
-      fetch(req)
+      // Always ask the server (skip the browser's 10-minute page cache) so a new version shows at once.
+      fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' })
         .then((res) => {
           const copy = res.clone();
           caches.open(CACHE).then((c) => c.put(BASE, copy));
