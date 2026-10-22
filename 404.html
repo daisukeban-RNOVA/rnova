@@ -26,34 +26,29 @@
   <link rel="icon" href="/rnova/favicon.ico"/><link rel="manifest" href="/rnova/manifest.webmanifest"/><meta name="theme-color" content="#2A1B6E"/><link rel="apple-touch-icon" href="/rnova/icons/icon-180.png"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/><meta name="apple-mobile-web-app-title" content="RNOVA"/></head>
 
   <body><style>
-#rnova-splash{position:fixed;inset:0;z-index:2147483000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
-background:radial-gradient(120% 80% at 50% 0%,#8f6bff 0%,#5b3df5 45%,#2f2a8f 100%);color:#fff;
-font-family:Nunito,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;transition:opacity .35s ease;padding:24px;text-align:center}
+#rnova-splash{position:fixed;inset:0;z-index:2147483000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+background:#f7f5ff;color:#5c5578;font-family:Nunito,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;transition:opacity .3s ease;padding:24px;text-align:center}
 #rnova-splash.hide{opacity:0;pointer-events:none}
-#rnova-splash img{width:150px;height:auto;animation:rnova-bob 1.1s ease-in-out infinite;filter:drop-shadow(0 10px 18px rgba(20,10,60,.45))}
-#rnova-splash .t{font-size:30px;font-weight:900;letter-spacing:3px;text-shadow:0 2px 0 rgba(0,0,0,.18)}
-#rnova-splash .m{font-size:16px;font-weight:700;opacity:.95;min-height:22px}
-#rnova-splash .bar{width:min(240px,70vw);height:10px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden}
-#rnova-splash .bar i{display:block;height:100%;width:40%;border-radius:99px;background:linear-gradient(90deg,#ffd84d,#ff8ac2);animation:rnova-slide 1.2s ease-in-out infinite}
-#rnova-splash .dots i{display:inline-block;width:8px;height:8px;margin:0 4px;border-radius:50%;background:#fff;animation:rnova-dot 1s ease-in-out infinite}
-#rnova-splash .dots i:nth-child(2){animation-delay:.15s}#rnova-splash .dots i:nth-child(3){animation-delay:.3s}
-@keyframes rnova-bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
-@keyframes rnova-slide{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
-@keyframes rnova-dot{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-6px);opacity:1}}
-@media (prefers-reduced-motion:reduce){#rnova-splash *{animation:none!important}}
+#rnova-splash picture,#rnova-splash img{width:min(220px,58vw);height:auto;display:block}
+#rnova-splash .bar{width:min(180px,48vw);height:4px;border-radius:99px;background:rgba(123,77,255,.15);overflow:hidden}
+#rnova-splash .bar i{display:block;height:100%;width:3%;border-radius:99px;background:#7b4dff;transition:width .25s ease-out}
+#rnova-splash .m{font-size:13px;font-weight:600;letter-spacing:.2px}
+@media (prefers-color-scheme:dark){#rnova-splash{background:#120d2e;color:#a49cc8}#rnova-splash .bar{background:rgba(164,156,200,.18)}#rnova-splash .bar i{background:#9b7bff}}
+#rnova-splash .m{font-variant-numeric:tabular-nums}
 </style>
-<div id="rnova-splash" role="status" aria-live="polite">
-<img src="/rnova/splash-jazel.png" alt=""/>
-<div class="t">RNOVA</div>
-<div class="bar"><i></i></div>
-<div class="m" id="rnova-splash-msg">Getting your study space ready…</div>
-<div class="dots"><i></i><i></i><i></i></div>
+<div id="rnova-splash" role="status" aria-live="polite" aria-label="Loading RNOVA">
+<picture><source srcset="/rnova/splash-logo-dark.png" media="(prefers-color-scheme: dark)"/><img src="/rnova/splash-logo.png" alt="RNOVA"/></picture>
+<div class="bar"><i id="rnova-splash-bar"></i></div>
+<div class="m" id="rnova-splash-msg">Loading…</div>
 </div>
 <script>
 (function(){
   var el=document.getElementById('rnova-splash'),msg=document.getElementById('rnova-splash-msg');
-  try{if(sessionStorage.getItem('rnova:updating')){msg.textContent='Updating to the newest version…';sessionStorage.removeItem('rnova:updating');}}catch(e){}
-  window.__rnovaHideSplash=function(){el.classList.add('hide');setTimeout(function(){el.style.display='none';},400);};
+  try{if(sessionStorage.getItem('rnova:updating')){msg.textContent='Updating…';sessionStorage.removeItem('rnova:updating');}}catch(e){}
+  var bar=document.getElementById('rnova-splash-bar');
+  // Percentage bar: download progress of the app (0-90%), then 100% when the app is ready.
+  window.__rnovaSplashPct=function(p){p=Math.max(0,Math.min(100,Math.round(p)));bar.style.width=Math.max(3,p)+'%';msg.textContent=msg.textContent.replace(/ [0-9]+%$/,'')+' '+p+'%';};
+  window.__rnovaHideSplash=function(){window.__rnovaSplashPct(100);setTimeout(function(){el.classList.add('hide');setTimeout(function(){el.style.display='none';},350);},180);};
   window.__rnovaShowSplash=function(text){if(text)msg.textContent=text;el.style.display='flex';el.classList.remove('hide');};
   setTimeout(window.__rnovaHideSplash,90000);
 })();
@@ -64,6 +59,6 @@ font-family:Nunito,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;transiti
     </noscript>
     <!-- The root element for your Expo app. -->
     <div id="root"></div>
-  <script src="/rnova/_expo/static/js/web/entry-15d41c37df98c2ee5696cfd44d1800ae.js" defer></script>
+  <script>(function __rnovaLoad(){var src='/rnova/_expo/static/js/web/entry-49fc98147b03b3fd392865ffbdf748b7.js',size=21815610,pct=window.__rnovaSplashPct||function(){};function plain(){var s=document.createElement('script');s.src=src;document.body.appendChild(s);}function run(blob){pct(92);var s=document.createElement('script');s.src=URL.createObjectURL(blob.type?blob:new Blob([blob],{type:'text/javascript'}));s.onerror=plain;document.body.appendChild(s);}if(!window.fetch){plain();return;}fetch(src).then(function(res){if(!res.ok)throw 0;if(!res.body||!res.body.getReader)return res.blob().then(run);var reader=res.body.getReader(),got=0,chunks=[];function pump(){return reader.read().then(function(r){if(r.done){run(new Blob(chunks,{type:'text/javascript'}));return;}chunks.push(r.value);got+=r.value.length;pct(got/size*90);return pump();});}return pump();}).catch(plain);})();</script>
 </body>
 </html>
