@@ -1,7 +1,7 @@
-// RNOVA offline worker, build 261022.0640-a68dcc5. Pages: the saved copy first (instant open), refreshed in the
+// RNOVA offline worker, build 261024.1047-8494cef. Pages: the saved copy first (instant open), refreshed in the
 // background; update reloads (?v=) go to the network. Bundles, fonts and pictures: cache first (their names change
 // whenever their content does). version.json: never cached.
-const CACHE = 'rnova-261022.0640-a68dcc5';
+const CACHE = 'rnova-261024.1047-8494cef';
 const BASE = '/rnova/';
 self.addEventListener('install', (e) => {
   self.skipWaiting();
